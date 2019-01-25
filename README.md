@@ -61,6 +61,12 @@ Using Docker
 
 
 
+### Programm with data
+
+You do not need ORM!
+
+
+
 * https://martinfowler.com/books/nosql.html
 * https://martinfowler.com/bliki/DDD_Aggregate.html
 * https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch
