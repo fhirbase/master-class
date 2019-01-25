@@ -72,4 +72,6 @@ You do not need ORM!
 * https://martinfowler.com/books/nosql.html
 * https://martinfowler.com/bliki/DDD_Aggregate.html
 * https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch
+* http://johnatten.com/2015/04/22/use-postgres-json-type-and-aggregate-functions-to-map-relational-data-to-json/
+* https://blog.2ndquadrant.com/inserting-jsonb-data-in-postgresql-9-6/
 
