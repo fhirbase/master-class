@@ -57,8 +57,8 @@ Using Docker
 ### Advanced Queries
 
 
-#### JSONB aggregate
-
+* JSONB aggregate
+* JSON as compositional
 
 
 ### Programm with data
