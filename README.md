@@ -41,11 +41,6 @@ Using Docker
 
 
 
-* https://martinfowler.com/books/nosql.html
-* https://martinfowler.com/bliki/DDD_Aggregate.html
-* https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch
-
-
 ### Indexing
 
 #### Functional idx
@@ -63,3 +58,10 @@ Using Docker
 
 
 #### JSONB aggregate
+
+
+
+* https://martinfowler.com/books/nosql.html
+* https://martinfowler.com/bliki/DDD_Aggregate.html
+* https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch
+
