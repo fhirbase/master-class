@@ -67,6 +67,8 @@ You do not need ORM!
 
 
 
+### Links
+
 * https://martinfowler.com/books/nosql.html
 * https://martinfowler.com/bliki/DDD_Aggregate.html
 * https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch
