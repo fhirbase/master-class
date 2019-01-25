@@ -10,6 +10,12 @@ document database pro and contra
 
 Open World Assumption
 
+Key points:
+
+* flexible open schema (you do not need to add new columns) - variability (validation????)
+* nested hierarchiecal document - Aggregate from DDD (compare with relational) - denormalization on steroid
+
+
 
 Trade-offs
 
@@ -34,6 +40,12 @@ Using Docker
 #### fhirpath
 
 
+
+* https://martinfowler.com/books/nosql.html
+* https://martinfowler.com/bliki/DDD_Aggregate.html
+* https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch
+
+
 ### Indexing
 
 #### Functional idx
@@ -45,6 +57,7 @@ Using Docker
 
 ### Modify JSONB
 
+* Constraints
 
 ### Advanced Queries
 
