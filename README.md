@@ -1,5 +1,21 @@
 ## JSONB master class
 
+### Intro:
+
+Why do we need JSONb
+
+relational-document database
+
+document database pro and contra
+
+Open World Assumption
+
+
+Trade-offs
+
+* volume
+* ....
+
 
 ### Install fhirbase
 
