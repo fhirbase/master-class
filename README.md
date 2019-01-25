@@ -16,7 +16,6 @@ Key points:
 * nested hierarchiecal document - Aggregate from DDD (compare with relational) - denormalization on steroid
 
 
-
 Trade-offs
 
 * volume
@@ -25,10 +24,62 @@ Trade-offs
 
 ### Install fhirbase
 
-Using Docker
+Using Docker - (Fhirbase getting started)[https://fhirbase.aidbox.app/getting-started-docker-version]
 
+``` sh
+$ docker pull fhirbase/fhirbase:latest
+$ docker run --rm -p 3000:3000 fhirbase/fhirbase:latest
+```
 
 ### CRUD
+
+```sql
+
+drop table jsonbtable;
+
+-- Create table
+create table IF NOT EXISTS jsonbtable (
+  id serial,
+  resource jsonb
+);
+
+\d+ jsonbtable
+
+-- Create row 
+insert into jsonbtable (resource)
+values ('{"attribute": "value", "nested" : {"attribute": "nested value"}}');
+
+-- Read
+select resource from jsonbtable;
+
+----
+-- Different ways for read
+select
+'resource->''attribute''' as access,
+resource->'attribute' as  "value",
+pg_typeof(resource->'attribute') as  "result_type"
+from jsonbtable;
+
+select
+'resource->>''attribute''' as access,
+resource->>'attribute' as  "value",
+pg_typeof(resource->>'attribute') as  "result_type"
+from jsonbtable;
+
+
+select
+'resource#>''{nested, attribute}''' as nested_access,
+resource#>'{nested,attribute}' as  "value",
+pg_typeof(resource#>'{nested,attribute}') as  "result_type"
+from jsonbtable;
+
+select
+'resource#>>''{nested, attribute}''' as nested_access,
+resource#>>'{nested,attribute}' as  "value",
+pg_typeof(resource#>>'{nested,attribute}') as  "result_type"
+from jsonbtable;
+
+```
 
 
 ### Search
