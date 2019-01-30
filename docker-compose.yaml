@@ -1,0 +1,13 @@
+version: '3.1'
+services:
+  db:
+    image: aidbox/db:11.1.0-1-g4601658
+    container_name: fhirbase
+    ports:
+      - "${PGPORT}:5432"
+    volumes:
+      - "./pgdata:/data"
+    environment:
+      POSTGRES_USER:     "${PGUSER}" 
+      POSTGRES_PASSWORD: "${PGPASSWORD}" 
+      POSTGRES_DB:       "${PGDATABASE}"
