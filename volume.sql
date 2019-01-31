@@ -103,8 +103,7 @@ SELECT c.oid,nspname AS table_schema, relname AS TABLE_NAME
 , pg_total_relation_size(reltoastrelid) AS toast_bytes
 FROM pg_class c
 LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
-WHERE relkind = 'r'
-and relname = nm
+WHERE relname = nm
 ) a
 ) a;
 

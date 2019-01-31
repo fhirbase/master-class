@@ -1,0 +1,85 @@
+----------- Result ------------
+----
+with recursive r AS (
+  select attr.key as path, attr.value as val
+  from observation p,
+  jsonb_each(resource) attr
+  UNION
+  (
+    WITH prev AS (
+      select * from r
+    ), obj AS (
+      select path || '.' || attr.key as path, attr.value as val
+      from prev, jsonb_each(val) attr
+      where jsonb_typeof(val) = 'object'
+    ), arr AS (
+      select path as path, attr as val
+      from prev, jsonb_array_elements(val) attr
+      where jsonb_typeof(val) = 'array'
+    )
+    select * from obj union select * from arr
+  )
+)
+select  path, count(*)
+from r
+group by path
+order by path;
+----
+-----------  End   ------------
+
+
+                 path                 
+--------------------------------------
+ category
+ category.coding
+ category.coding.code
+ category.coding.display
+ category.coding.system
+ code
+ code.coding
+ code.coding.code
+ code.coding.display
+ code.coding.system
+ code.text
+ component
+ component.code
+ component.code.coding
+ component.code.coding.code
+ component.code.coding.display
+ component.code.coding.system
+ component.code.text
+ component.value
+ component.value.Quantity
+ component.value.Quantity.code
+ component.value.Quantity.system
+ component.value.Quantity.unit
+ component.value.Quantity.value
+ context
+ context.id
+ context.type
+ effective
+ effective.dateTime
+ id
+ issued
+ meta
+ meta.profile
+ resourceType
+ status
+ subject
+ subject.id
+ subject.type
+ value
+ value.CodeableConcept
+ value.CodeableConcept.coding
+ value.CodeableConcept.coding.code
+ value.CodeableConcept.coding.display
+ value.CodeableConcept.coding.system
+ value.CodeableConcept.text
+ value.Quantity
+ value.Quantity.code
+ value.Quantity.system
+ value.Quantity.unit
+ value.Quantity.value
+ value.string
+(51 rows)
+
