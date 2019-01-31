@@ -16,15 +16,35 @@ Key points:
 * nested hierarchiecal document - Aggregate from DDD (compare with relational) - denormalization on steroid
 
 
-### Trade-offs
+## Trade-offs
 
 * - access attributes - 10-30%
 * - volume
-* - data types (only few)
+* - lake of data types (only few)
 
 * + recursive datatypes
 * + open schema 
 * + nested data structure
+
+
+### Attribute access speed
+
+* 20-30% slower then column
+* about twice faster then jsonb
+* (unexpected) faster then composite types
+
+See: ./access-performance.sql
+
+### Volume
+
+pt from https://www.hl7.org/fhir/patient-example.json
+
+size is 3.6 K (fit page)
+keys ~ 30 % in bytes
+
+the smaller json and more numbers - the worse
+
+See: ./volume.sql
 
 
 ### Install fhirbase
@@ -35,6 +55,10 @@ Using Docker - (Fhirbase getting started)[https://fhirbase.aidbox.app/getting-st
 $ docker pull fhirbase/fhirbase:latest
 $ docker run --rm -p 3000:3000 fhirbase/fhirbase:latest
 ```
+
+### Load data
+
+curl https://storage.googleapis.com/aidbox-public/fhirbase.sql.tag.zg | gunzip | psql
 
 ### CRUD
 
@@ -128,3 +152,32 @@ You do not need ORM!
 * https://martinfowler.com/bliki/DDD_Aggregate.html
 * https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch
 
+### For crud
+----
+
+select '["a", "b"]'::jsonb || '["c", "d"]'::jsonb;
+
+----
+
+select '{"a": "b"}'::jsonb || '{"c": "d"}'::jsonb;
+
+----
+
+select '{"a": "b"}'::jsonb || '["c", "d"]'::jsonb;
+
+----
+
+select '["a", "b"]'::jsonb || '{"c": "d"}'::jsonb;
+
+----
+
+select '["a", "b"]'::jsonb || '"c"'::jsonb;
+
+----
+select to_jsonb(current_timestamp)
+----
+
+---select '{"a": "b"}'::jsonb || '"c"'::jsonb;
+
+
+----
