@@ -45,9 +45,12 @@ limit 10;
 -- find pt from city
 
 select
+ id,
  resource#>>'{name,0,given,0}',
+ resource#>>'{name,0,family}',
  resource#>>'{address,0,city}',
- resource#>>'{address,0,line,0}'
+ resource#>>'{address,0,line,0}',
+ resource#>>'{birthDate}'
 from patient
 where resource @> '{"address":[{"city": "Brockton"}]}'
 limit 10;
