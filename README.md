@@ -18,6 +18,7 @@ Key points:
 
 Trade-offs
 
+* access attributes - 10-30%
 * volume
 * ....
 
