@@ -87,6 +87,10 @@ from jsonbtable;
 
 #### jsquery
 
+```sql
+create extension jsquery;
+```
+
 #### json-knife
 
 #### fhirpath
@@ -97,12 +101,26 @@ from jsonbtable;
 
 #### Functional idx
 
+``` sql
+create index if not exists valueset_resource_url   on valueset ((resource#>>'{url}')) ;
+```
+
 #### JSONB idx
+
+```
+create index if not exists concept_resource__gin_tgrm  on concept using gin ((resource::text) gin_trgm_ops) ;
+```
 
 #### jsquery idx
 
 
 ### Modify JSONB
+
+``` sql
+
+update codesystem set resource = resource || jsonb_build_object('deprecated', true) where resource->>'module' = 'fhir-3.3.0';
+
+```
 
 * Constraints
 
