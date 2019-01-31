@@ -16,11 +16,15 @@ Key points:
 * nested hierarchiecal document - Aggregate from DDD (compare with relational) - denormalization on steroid
 
 
-Trade-offs
+### Trade-offs
 
-* access attributes - 10-30%
-* volume
-* ....
+* - access attributes - 10-30%
+* - volume
+* - data types (only few)
+
+* + recursive datatypes
+* + open schema 
+* + nested data structure
 
 
 ### Install fhirbase
@@ -139,9 +143,15 @@ You do not need ORM!
 
 ### Links
 
+####  Practical hints
+
+* http://erthalion.info/2017/12/21/advanced-json-benchmarks/
+* https://blog.2ndquadrant.com/inserting-jsonb-data-in-postgresql-9-6/
+* http://johnatten.com/2015/04/22/use-postgres-json-type-and-aggregate-functions-to-map-relational-data-to-json/
+
+#### Theory
+
 * https://martinfowler.com/books/nosql.html
 * https://martinfowler.com/bliki/DDD_Aggregate.html
 * https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch
-* http://johnatten.com/2015/04/22/use-postgres-json-type-and-aggregate-functions-to-map-relational-data-to-json/
-* https://blog.2ndquadrant.com/inserting-jsonb-data-in-postgresql-9-6/
 
