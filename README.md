@@ -58,33 +58,6 @@ values ('{"attribute": "value", "nested" : {"attribute": "nested value"}}');
 select resource from jsonbtable;
 
 ----
--- Different ways for read
-select
-'resource->''attribute''' as access,
-resource->'attribute' as  "value",
-pg_typeof(resource->'attribute') as  "result_type"
-from jsonbtable;
-
-select
-'resource->>''attribute''' as access,
-resource->>'attribute' as  "value",
-pg_typeof(resource->>'attribute') as  "result_type"
-from jsonbtable;
-
-
-select
-'resource#>''{nested, attribute}''' as nested_access,
-resource#>'{nested,attribute}' as  "value",
-pg_typeof(resource#>'{nested,attribute}') as  "result_type"
-from jsonbtable;
-
-select
-'resource#>>''{nested, attribute}''' as nested_access,
-resource#>>'{nested,attribute}' as  "value",
-pg_typeof(resource#>>'{nested,attribute}') as  "result_type"
-from jsonbtable;
-
-```
 
 
 ### Search
