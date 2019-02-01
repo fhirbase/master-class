@@ -135,7 +135,31 @@ from condition
 where resource#>'{code,coding}' @> '[{"code": "40055000", "system": "http://snomed.info/sct"}]'
 limit 10;
 
+----
+
+select '["a", "b"]'::jsonb || '["c", "d"]'::jsonb;
 
 ----
 
+select '{"a": "b"}'::jsonb || '{"c": "d"}'::jsonb;
 
+----
+
+select '{"a": "b"}'::jsonb || '["c", "d"]'::jsonb;
+
+----
+
+select '["a", "b"]'::jsonb || '{"c": "d"}'::jsonb;
+
+----
+
+select '["a", "b"]'::jsonb || '"c"'::jsonb;
+
+----
+select to_jsonb(current_timestamp)
+----
+
+---select '{"a": "b"}'::jsonb || '"c"'::jsonb;
+
+
+----

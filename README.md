@@ -152,32 +152,3 @@ You do not need ORM!
 * https://martinfowler.com/bliki/DDD_Aggregate.html
 * https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch
 
-### For crud
-----
-
-select '["a", "b"]'::jsonb || '["c", "d"]'::jsonb;
-
-----
-
-select '{"a": "b"}'::jsonb || '{"c": "d"}'::jsonb;
-
-----
-
-select '{"a": "b"}'::jsonb || '["c", "d"]'::jsonb;
-
-----
-
-select '["a", "b"]'::jsonb || '{"c": "d"}'::jsonb;
-
-----
-
-select '["a", "b"]'::jsonb || '"c"'::jsonb;
-
-----
-select to_jsonb(current_timestamp)
-----
-
----select '{"a": "b"}'::jsonb || '"c"'::jsonb;
-
-
-----
