@@ -1,8 +1,8 @@
 version: '3.1'
 services:
   db:
-    image: aidbox/db:11.1.0
-    container_name: jsonb-masterclass 
+    image: aidbox/db:11.1.0-3-g7a1dab6
+    container_name: fhirbase
     ports:
       - "${PGPORT}:5432"
     volumes:

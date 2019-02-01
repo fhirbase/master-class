@@ -5,7 +5,7 @@
 Pull postgres image
 
 ``` bash
-docker pull aidbox/db:11.1.0
+docker pull aidbox/db:11.1.0-3-g7a1dab6
 ```
 
 Install psql or any sql terminal\editor
@@ -69,6 +69,12 @@ source .env
 psql
 ```
 
+Load initial dataset
+
+```bash
+curl https://storage.googleapis.com/aidbox-public/masterclass_dataset.sql.tar.gz | gunzip | psql
+```
+
 ## Trade-offs
 
 * - access attributes - 10-30%
@@ -102,16 +108,9 @@ See: ./volume.sql
 
 ### Install fhirbase
 
-Using Docker - (Fhirbase getting started)[https://fhirbase.aidbox.app/getting-started-docker-version]
-
-``` sh
-$ docker pull fhirbase/fhirbase:latest
-$ docker run --rm -p 3000:3000 fhirbase/fhirbase:latest
-```
 
 ### Load data
 
-curl https://storage.googleapis.com/aidbox-public/fhirbase.sql.tag.zg | gunzip | psql
 
 ### CRUD
 

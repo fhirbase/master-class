@@ -1,4 +1,4 @@
----- db: -h localhost -p 5433 -U postgres fhirbase
+---- db: -h localhost -p 7890 -U postgres postgres
 
 
 -- Create from flat table-
