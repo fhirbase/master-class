@@ -47,33 +47,9 @@ Key points:
 * flexible open schema (you do not need to add new columns) - variability (validation????)
 * nested hierarchiecal document - Aggregate from DDD (compare with relational) - denormalization on steroid
 
-
 ## Getting started
 
-Run container with PostgreSQL 11
-
-```bash
-docker-compose up -d
-```
-
-Default connection details
-
-```bash
-cat .env
-```
-
-Connect to PostgreSQL
-
-```bash
-source .env
-psql
-```
-
-Load initial dataset
-
-```bash
-curl https://storage.googleapis.com/aidbox-public/masterclass_dataset.sql.tar.gz | gunzip | psql
-```
+[Getting-started](https://github.com/fhirbase/master-class/blob/master/getting-started.md)
 
 ## Trade-offs
 

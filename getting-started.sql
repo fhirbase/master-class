@@ -1,14 +1,15 @@
----- db: -h localhost -p 5433 -U postgres fhirbase
------
+---- db: -h localhost -p 7890 -U postgres postgres
 
+----
 -- Create table for Github Commits
 create table commits (id text primary key, doc jsonb);
 
-----
 -- Now load last 300 commits ifo of PostgreSQL from github
 -- $ ./github.sh
------
 
+----
+-- NOTE: if github ban your IP, you can use commits_bk table
+-- select count(*) from commits_bk;
 -----
 
 select doc#>>'{author,login}', count(*)

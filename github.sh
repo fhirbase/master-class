@@ -1,5 +1,6 @@
+#!/bin/bash
+
 for ((i=0; i<=10; i++)) do
-    echo "$i";
 
     echo "https://api.github.com/repos/postgres/postgres/commits?page=$i"
 
