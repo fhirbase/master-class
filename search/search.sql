@@ -3,12 +3,16 @@
 -- @> operator
 select '{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb;
 
+----
 select '{"a":1, "b":2}'::jsonb <@ '{"b":2}'::jsonb;
 
+----
 -- matches part of document
 select '[{"system":"phone", "value": "123"}]'::jsonb @> '[{"system":"phone"}]'::jsonb;
 
--- can be nested
+----
+---match nested objects and arrays
+
 select $JSON$
   [
     {"prop": {"system":"email", "value": "123"}},
