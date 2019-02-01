@@ -50,9 +50,7 @@ Key points:
 * flexible open schema (you do not need to add new columns) - variability (validation????)
 * nested hierarchiecal document - Aggregate from DDD (compare with relational) - denormalization on steroid
 
-## Getting started
-
-[Getting-started](https://github.com/fhirbase/master-class/blob/master/getting-started.md)
+## [Getting-started](https://github.com/fhirbase/master-class/blob/master/getting-started.md)
 
 ## Trade-offs
 

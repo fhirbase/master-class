@@ -75,7 +75,7 @@ done
  - Analyze keys ussage
 
 
+---
 
-### Answers
 [Answers](https://github.com/fhirbase/master-class/blob/master/getting-started.sql)
 
