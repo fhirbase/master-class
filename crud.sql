@@ -14,15 +14,20 @@ values ('test-pt', 1 ,'created',
   "birthDate": "1990.11.07"}');
 
 ----
+
 insert into patient (id, txid, status,  resource)
 values ('test-pt-cast', 1 ,'created',
-'{"gender": "male",
-"birthDate": "1982.10.12"}'::jsonb);
+$JSONB$
+  {
+    "gender": "male",
+    "birthDate": "1982.10.12"
+  }
+$JSONB$::jsonb);
 
 ----
 insert into patient (id, txid, status,  resource)
 values ('test-pt-build', 1 ,'created',
-json_build_object('gender', 'female', 'birthDate', '1982.10.12'));
+ json_build_object('gender', 'female', 'birthDate', '1982.10.12'));
 
 ----
 insert into patient (id, txid, status,  resource)
@@ -156,4 +161,31 @@ set resource = jsonb_set(resource, '{code,coding}',
 
 where (resource#>'{code,coding}'  @> '[{"code": "J32.9", "system": "https://icd10"}]')
 
+----
 
+select '["a", "b"]'::jsonb || '["c", "d"]'::jsonb;
+
+----
+
+select '{"a": "b"}'::jsonb || '{"c": "d"}'::jsonb;
+
+----
+
+select '{"a": "b"}'::jsonb || '["c", "d"]'::jsonb;
+
+----
+
+select '["a", "b"]'::jsonb || '{"c": "d"}'::jsonb;
+
+----
+
+select '["a", "b"]'::jsonb || '"c"'::jsonb;
+
+----
+select to_jsonb(current_timestamp)
+----
+
+---select '{"a": "b"}'::jsonb || '"c"'::jsonb;
+
+
+----
