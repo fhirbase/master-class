@@ -125,8 +125,4 @@ pt from https://www.hl7.org/fhir/patient-example.json
 keys is 30 %
 size is 3.6 K
 
-
-
-----
-----
 ----

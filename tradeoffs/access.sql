@@ -1,32 +1,36 @@
 
 ----
 
+-- prepare types for nested composite type
+-- we use hack because no recursive types in pg
+
 DROP TYPE mytype3 cascade;
 DROP TYPE mytype2 cascade;
 DROP TYPE mytype1 cascade;
 DROP TYPE mytype cascade;
 
 CREATE TYPE mytype3 AS (
-just_a_attrib text
+  just_a_attrib text
 );
 
 CREATE TYPE mytype2 AS (
-just_a_attrib text,
-nested mytype3
+  just_a_attrib text,
+  nested mytype3
 );
 
 CREATE TYPE mytype1 AS (
-just_a_attrib text,
-nested mytype2
+  just_a_attrib text,
+  nested mytype2
 );
 
 CREATE TYPE mytype AS (
-just_a_attrib text,
-nested mytype1
+  just_a_attrib text,
+  nested mytype1
 );
 
 ----
 
+-- create and fill table with test data
 
 drop table test_performance;
 create table test_performance (
@@ -72,12 +76,6 @@ select
 from generate_series(1, 100000) as a(n);
 
 vacuum analyze test_performance;
-----
-
-select ((((t.typed).nested).nested).nested).just_a_attrib
-from test_performance t
-limit 10;
-
 ----
 
 \timing
@@ -163,4 +161,9 @@ from test_performance t
 limit 10;
 
 -- 48 ms
+----
+
+select ((((t.typed).nested).nested).nested).just_a_attrib
+from test_performance t
+limit 10;
 ----

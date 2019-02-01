@@ -3,11 +3,14 @@
 ## Agenda
 
 * What's JSONB?
+
 * Why JSONB?
   * ORM Impedance
   * DDD Aggregates & Document databases
   * Nested Data Structures
   * Recursive Data Structures 
+  * Denormalization on steroids 
+
 * What are tread-offs?
   * how fast access to jsonb fields
   * how big is jsonb in database
