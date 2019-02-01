@@ -1,5 +1,20 @@
 # JSONB master class
 
+## Requirements 
+
+Pull postgres image
+
+``` bash
+docker pull aidbox/db:11.1.0-3-g7a1dab6
+```
+
+Install psql or any sql terminal\editor
+
+- ```sudo apt-get install -y postgresql-client``` depend on your OS
+- https://www.pgadmin.org/
+- https://dbeaver.io/
+
+
 ## Agenda
 
 * What's JSONB?
@@ -20,7 +35,7 @@
 * How to index jsonb?
 
 
-### Intro:
+## Intro
 
 Why do we need JSONb
 
@@ -35,6 +50,33 @@ Key points:
 * flexible open schema (you do not need to add new columns) - variability (validation????)
 * nested hierarchiecal document - Aggregate from DDD (compare with relational) - denormalization on steroid
 
+
+## Getting started
+
+Run container with PostgreSQL 11
+
+```bash
+docker-compose up -d
+```
+
+Default connection details
+
+```bash
+cat .env
+```
+
+Connect to PostgreSQL
+
+```bash
+source .env
+psql
+```
+
+Load initial dataset
+
+```bash
+curl https://storage.googleapis.com/aidbox-public/masterclass_dataset.sql.tar.gz | gunzip | psql
+```
 
 ## Trade-offs
 
@@ -69,48 +111,13 @@ See: ./volume.sql
 
 ### Install fhirbase
 
-Using Docker - (Fhirbase getting started)[https://fhirbase.aidbox.app/getting-started-docker-version]
-
-``` sh
-$ docker pull fhirbase/fhirbase:latest
-$ docker run --rm -p 3000:3000 fhirbase/fhirbase:latest
-```
 
 ### Load data
 
-curl https://storage.googleapis.com/aidbox-public/fhirbase.sql.tag.zg | gunzip | psql
 
 ### CRUD
 
-```sql
-
-drop table jsonbtable;
-
--- Create table
-create table IF NOT EXISTS jsonbtable (
-  id serial,
-  resource jsonb
-);
-
-\d+ jsonbtable
-
--- Create row 
-insert into jsonbtable (resource)
-values ('{"attribute": "value", "nested" : {"attribute": "nested value"}}');
-
--- Read
-select resource from jsonbtable;
-
-----
-
-
 ### Search
-
-#### jsquery
-
-```sql
-create extension jsquery;
-```
 
 #### json-knife
 

@@ -1,4 +1,10 @@
----- db: -h localhost -p 5433 -U postgres fhirbase
+---- db: -h localhost -p 7890 -U postgres postgres
+
+
+-- Create from flat table-
+--  usnpi
+-- Задание
+-- -> npi to fhri practitioner
 
 -- Create
 
@@ -120,13 +126,6 @@ returning jsonb_pretty(resource);
 -- Examples
 -- add condition code
 
-select '[{"foo": "bar"}]'::jsonb || '{"tar": "mar"}';
-
-
-----
---select jsonb_pretty(resource->'code')
-
-----
 update condition
 set resource = jsonb_set(resource, '{code,coding}', (resource#>'{code, coding}' ||  '{"code": "J32.9", "system": "https://icd10", "display": "Sinusitis (chronic) NOS"}'))
 
@@ -139,6 +138,28 @@ select jsonb_pretty(resource#>'{code, coding}')
 from condition
 where resource#>'{code,coding}' @> '[{"code": "40055000", "system": "http://snomed.info/sct"}]'
 limit 10;
+
+----
+update (select jsonb_array_elements('[
+{"code": "40055000",
+"system": "http://snomed.info/sct",
+"display": "Chronic sinusitis (disorder)"
+}, {
+"code": "J32.9",
+"system": "https://icd10",
+"display": "Sinusitis (chronic) NOS"}]'::jsonb) as r)
+set r = r || '{"code": "foo"}':jsonb
+
+----
+
+update condition
+set resource = jsonb_set(resource, '{code,coding}',
+
+(resource#>'{code, coding}' ||  '{"code": "J32.9", "system": "https://icd10", "display": "Sinusitis (chronic) NOS"}')
+
+)
+
+where (resource#>'{code,coding}'  @> '[{"code": "J32.9", "system": "https://icd10"}]')
 
 ----
 

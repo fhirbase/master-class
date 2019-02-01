@@ -1,28 +1,20 @@
+---- db: -h localhost -p 5433 -U postgres fhirbase
 -----
 
+-- Create table for Github Commits
 create table commits (id text primary key, doc jsonb);
 
+----
+-- Now load last 300 commits ifo of PostgreSQL from github
+-- $ ./github.sh
 -----
-
-\set record `cat ./commits.json`
-\a
-
-with commits as (
-  select d as doc
-  from jsonb_array_elements( ( :'record')::jsonb ) d
-)
-
-select jsonb_pretty(doc #> '{author,login}')
-from commits
-
 
 -----
 
 select doc#>>'{author,login}', count(*)
 from commits
 group by doc#>>'{author,login}'
-order by count(*) desc
-;
+order by count(*) desc ;
 
 -----
 
