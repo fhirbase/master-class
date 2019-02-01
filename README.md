@@ -1,4 +1,21 @@
-## JSONB master class
+# JSONB master class
+
+## Agenda
+
+* What's JSONB?
+* Why JSONB?
+  * ORM Impedance
+  * DDD Aggregates & Document databases
+  * Nested Data Structures
+  * Recursive Data Structures 
+* What are tread-offs?
+  * how fast access to jsonb fields
+  * how big is jsonb in database
+* How to store? Schema?
+* How to update?
+* How to search in jsonb?
+* How to index jsonb?
+
 
 ### Intro:
 

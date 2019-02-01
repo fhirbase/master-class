@@ -8,15 +8,20 @@ values ('test-pt', 1 ,'created',
   "birthDate": "1990.11.07"}');
 
 ----
+
 insert into patient (id, txid, status,  resource)
 values ('test-pt-cast', 1 ,'created',
-'{"gender": "male",
-"birthDate": "1982.10.12"}'::jsonb);
+$JSONB$
+  {
+    "gender": "male",
+    "birthDate": "1982.10.12"
+  }
+$JSONB$::jsonb);
 
 ----
 insert into patient (id, txid, status,  resource)
 values ('test-pt-build', 1 ,'created',
-json_build_object('gender', 'female', 'birthDate', '1982.10.12'));
+ json_build_object('gender', 'female', 'birthDate', '1982.10.12'));
 
 ----
 insert into patient (id, txid, status,  resource)
