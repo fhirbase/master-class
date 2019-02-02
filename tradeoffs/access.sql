@@ -71,7 +71,16 @@ select
        )
    )
  ),
- row((a.n::text), row((a.n::text), row((a.n::text), row(a.n::text)::mytype3)::mytype2)::mytype1)::mytype
+ row(
+   (a.n::text),
+   row(
+     (a.n::text),
+     row(
+       (a.n::text),
+       row(a.n::text)::mytype3
+     )::mytype2
+   )::mytype1
+)::mytype
 
 from generate_series(1, 100000) as a(n);
 
@@ -156,14 +165,14 @@ select avg(
 -- 48 ms
 ----
 
-select row_to_json(t.typed)
-from test_performance t
-limit 10;
-
--- 48 ms
-----
 
 select ((((t.typed).nested).nested).nested).just_a_attrib
 from test_performance t
 limit 10;
+----
+
+select row_to_json(t.typed)
+from test_performance t
+limit 10;
+
 ----
