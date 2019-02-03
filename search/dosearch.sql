@@ -6,7 +6,7 @@
 select
   resource#>>'{type,0,text}',
   (resource#>>'{period,start}')::date,
-  resource#>>'{period,end}'
+  (resource#>>'{period,end}')::date
 -- ,jsonb_pretty(resource)
 from encounter
 where
@@ -19,7 +19,7 @@ order by resource#>>'{period,start}'
 
 \a
 \timing
--- explain analyze
+explain analyze
 select
   -- id,
   (resource#>>'{period,start}')::date,
@@ -39,13 +39,15 @@ RETURNS NULL ON NULL INPUT;
 
 
 create index enc_start_idx on encounter
-(imm_date(resource#>>'{period,start}'));
+(
+  imm_date(resource#>>'{period,start}')
+);
 
 vacuum analyze encounter;
 
 ----
 \timing
--- explain analyze
+explain analyze
 select
   (resource#>>'{period,start}')::date,
   resource#>>'{type,0,text}'
@@ -67,14 +69,15 @@ resource#>>'{code,coding,0,system}',
 resource#>>'{code,coding,0,display}'
 -- jsonb_pretty(resource)
 from observation
-where resource#>>'{code,coding,0,code}' = '72166-2'
+where
+resource#>>'{code,coding,0,code}' = '72166-2'
 
 limit 100
 
 ----
 
 -- @> operator
-select '{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb;
+select '{"a":1, "b":2}'::jsonb @> '{"b":3}'::jsonb;
 
 ----
 select '{"a":1, "b":2}'::jsonb <@ '{"b":2}'::jsonb;
@@ -112,7 +115,7 @@ select '{"name": "Nikolai", "address": "spb.ru"}'::jsonb ?& array['name', 'birth
 ;
 
 ----
-
+\timing
 explain analyze
 select
 resource#>>'{code,coding,0,code}',
@@ -139,6 +142,7 @@ CREATE INDEX obs_idxgin ON observation USING GIN (resource);
 
 ----
 
+select jsonb_pretty(table_size('observation'));
 select jsonb_pretty(table_size('obs_idxgin'));
 select jsonb_pretty(table_size('obs_idxginp'));
 
@@ -152,7 +156,7 @@ create extension if not exists jsquery;
 
 \timing
 
--- explain analyze
+explain analyze
 select
   resource#>>'{subject,id}',
   resource#>>'{value,Quantity,value}',
@@ -238,7 +242,7 @@ limit 10;
 
 ---
 
-DROP VIEW view_pts;
+DROP materialized VIEW view_pts cascade;
 
 CREATE MATERIALIZED VIEW view_pts AS
 
