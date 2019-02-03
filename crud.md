@@ -9,6 +9,7 @@
 ### Read 
 
 - Pretty print 
+move to GS
 - Json and Jsonb Operators ->, ->>, #>, #>>
 - jsonb_extract_path and  jsonb_extract_path_text
 

@@ -1,17 +1,26 @@
 ---- db: -h localhost -p 7890 -U postgres postgres
 
 ----
+
+----
 -- Create table for Github Commits
 create table commits (id text primary key, doc jsonb);
+----
 
 -- Now load last 300 commits ifo of PostgreSQL from github
 -- $ ./github.sh
+
+\a
+select jsonb_pretty(doc) from commits_bk limit 1;
 
 ----
 -- NOTE: if github ban your IP, you can use commits_bk table
 -- select count(*) from commits_bk;
 -----
 
+-- add samples with access and coerce
+
+-----
 select doc#>>'{author,login}', count(*)
 from commits
 group by doc#>>'{author,login}'

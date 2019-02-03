@@ -26,8 +26,9 @@ $JSONB$::jsonb);
 
 ----
 insert into patient (id, txid, status,  resource)
-values ('test-pt-build', 1 ,'created',
- json_build_object('gender', 'female', 'birthDate', '1982.10.12'));
+values ('test-pt-build1', 1 ,'created',
+ json_build_object('gender', 'female', 'birthDate', '1982.10.12'))
+ returning *;
 
 ----
 insert into patient (id, txid, status,  resource)
@@ -83,7 +84,7 @@ from patient where id = 'test-pt-nested' limit 1 ;
 ----
 
 -- Update operation
-
+\a
 select jsonb_pretty(resource)
 from condition
 where id = '00558851-32c7-4457-833a-13fa0e484683';
@@ -95,16 +96,18 @@ where id = '00558851-32c7-4457-833a-13fa0e484683';
 ----
 update condition
 set resource = resource - 'assertedDate'
-where id = '00558851-32c7-4457-833a-13fa0e484683';
+where id = '00558851-32c7-4457-833a-13fa0e484683'
+returning resource;
 ----
 
+\a
 update condition
 set resource = resource || jsonb_build_object('id_copy', id)
 where id = '00558851-32c7-4457-833a-13fa0e484683'
 returning jsonb_pretty(resource);
 
 ----
-
+\a
 update condition
 set resource =  jsonb_set(resource, '{status}', '"created"')
 where id = '00558851-32c7-4457-833a-13fa0e484683'
@@ -112,9 +115,14 @@ returning jsonb_pretty(resource);
 
 ----
 
-select ('{"attribute": "value"}'::jsonb || '{"missingattribute":  null }');
-select jsonb_strip_nulls('{"attribute": "value"}'::jsonb || '{"missingattribute":  null }');
+-- row to json
+select jsonb_strip_nulls('{"attribute": "value", "missingattribute":  null }');
 
+-----
+\a
+
+select jsonb_strip_nulls(row_to_json(u.*)::jsonb)
+from information_schema.tables u limit 1;
 ----
 update condition
 set resource =

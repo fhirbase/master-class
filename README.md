@@ -30,8 +30,7 @@ Install psql or any sql terminal\editor
   * how fast access to jsonb fields
   * how big is jsonb in database
 * How to store? Schema?
-* How to update?
-* How to search in jsonb?
+* How to update? * How to search in jsonb?
 * How to index jsonb?
 
 
