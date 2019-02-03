@@ -49,12 +49,13 @@ Key points:
 
 ## Getting Started
 
-[Getting-started](https://github.com/fhirbase/master-class/blob/master/getting-started.md)
-
-* Install POstgreSQL11
-* Load sample data
+* Install PostgreSQL11
+* Load initial dataset
+* JSONB basic operators
 * Get data from Github
+* Work with jsonb data
 
+See: [./getting-started.md](https://github.com/fhirbase/master-class/blob/master/getting-started.md)
 
 
 ## Trade-offs
@@ -117,7 +118,8 @@ create index if not exists valueset_resource_url   on valueset ((resource#>>'{ur
 #### JSONB idx
 
 ```
-create index if not exists concept_resource__gin_tgrm  on concept using gin ((resource::text) gin_trgm_ops) ;
+create index if not exists concept_resource__gin_tgrm  
+on concept using gin ((resource::text) gin_trgm_ops) ;
 ```
 
 #### jsquery idx
@@ -126,9 +128,8 @@ create index if not exists concept_resource__gin_tgrm  on concept using gin ((re
 ### Modify JSONB
 
 ``` sql
-
-update codesystem set resource = resource || jsonb_build_object('deprecated', true) where resource->>'module' = 'fhir-3.3.0';
-
+update codesystem set resource = resource || jsonb_build_object('deprecated', true) 
+where resource->>'module' = 'fhir-3.3.0';
 ```
 
 * Constraints
