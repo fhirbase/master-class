@@ -1,31 +1,32 @@
 # JSONB master class
+---
 
 ## Requirements 
 
-Pull postgres image
+1) [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose/install)
+
+2) Pull PostgreSQL 11 image for master class with JsQuery extensions
 
 ``` bash
 docker pull aidbox/db:11.1.0-3-g7a1dab6
 ```
 
-Install psql or any sql terminal\editor
+3) Install `psql` or any sql terminal\editor
 
-- ```sudo apt-get install -y postgresql-client``` depend on your OS
-- https://www.pgadmin.org/
-- https://dbeaver.io/
+- ```sudo apt-get install -y postgresql-client``` - depend on your OS
+- [pgAdmin](https://www.pgadmin.org)
+- [DBeaver](https://dbeaver.io)
 
 
 ## Agenda
 
 * What's JSONB?
-
 * Why JSONB?
   * ORM Impedance
   * DDD Aggregates & Document databases
   * Nested Data Structures
   * Recursive Data Structures 
   * Denormalization on steroids 
-
 * What are tread-offs?
   * how fast access to jsonb fields
   * how big is jsonb in database
@@ -36,56 +37,63 @@ Install psql or any sql terminal\editor
 
 ## Intro
 
-Why do we need JSONb
-
-relational-document database
-
-document database pro and contra
-
-Open World Assumption
+* Why do we need JSONb
+* Relational-document database
+* Document database pro and contra
+* Open World Assumption
 
 Key points:
 
-* flexible open schema (you do not need to add new columns) - variability (validation????)
-* nested hierarchiecal document - Aggregate from DDD (compare with relational) - denormalization on steroid
+* Flexible open schema (you do not need to add new columns) - variability (validation????)
+* Nested hierarchiecal document - Aggregate from DDD (compare with relational) - denormalization on steroid
 
-## [Getting-started](https://github.com/fhirbase/master-class/blob/master/getting-started.md)
+## Getting Started
+
+[Getting-started](https://github.com/fhirbase/master-class/blob/master/getting-started.md)
+
+* Install POstgreSQL11
+* Load sample data
+* Get data from Github
+
+
 
 ## Trade-offs
 
-* - access attributes - 10-30%
-* - volume
-* - lake of data types (only few)
+Disadvantages
 
-* + recursive datatypes
-* + open schema 
-* + nested data structure
+* Access attributes - 10-30%
+* Volume
+* Lake of data types (only few)
+
+Advantages
+
+* Recursive datatypes
+* Open schema 
+* Nested data structure
 
 
 ### Attribute access speed
 
 * 20-30% slower then column
-* about twice faster then jsonb
+* About twice faster then jsonb
 * (unexpected) faster then composite types
 
-See: ./access-performance.sql
+See: [./tradeoffs/access.sql](https://github.com/fhirbase/master-class/blob/master/tradeoffs/access.sql)
 
 ### Volume
 
-pt from https://www.hl7.org/fhir/patient-example.json
+Patient from https://www.hl7.org/fhir/patient-example.json
 
-size is 3.6 K (fit page)
+Size is 3.6 K (fit page)
 keys ~ 30 % in bytes
 
-the smaller json and more numbers - the worse
+The smaller json and more numbers - the worse
 
-See: ./volume.sql
-
-
-### Install fhirbase
+See: [./tradeoffs/volume.sql](https://github.com/fhirbase/master-class/blob/master/tradeoffs/volume.sql)
 
 
-### Load data
+
+
 
 
 ### CRUD
