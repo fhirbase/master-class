@@ -96,16 +96,29 @@ select '{"a": "b", "nested": {"attr": "val", "b": "c"}}'::jsonb - '{nested, a}':
 -- by path
 select '{"a": "b", "nested": {"attr": "val", "b": "c"}}'::jsonb #- '{nested,attr}'::text[];
 
-
-
-
 ----
 
-set insert
+-- set
+\a
+select jsonb_pretty(
+  jsonb_set('{"a": "b"}', '{c}', '"d"')
+);
 
+select jsonb_pretty(
+  jsonb_set('{"a": "b", "nested": {"c": "foo"}}', '{nested,c}', '"bar"')
+);
+----
+-- insert
+\a
+select jsonb_pretty(
+  jsonb_insert('{"a": "b"}', '{c}', '"d"')
+);
 
-
-
+--- error
+select jsonb_pretty(
+  jsonb_insert('{"a": "b", "nested": {"c": "foo"}}', '{nested,c}',  '"bar"')
+);
+----
 
 
 ----
@@ -113,7 +126,9 @@ set insert
 -- add condition code
 
 update condition
-set resource = jsonb_set(resource, '{code,coding}', (resource#>'{code, coding}' ||  '{"code": "J32.9", "system": "https://icd10", "display": "Sinusitis (chronic) NOS"}'))
+set resource = jsonb_set(resource, '{code,coding}',
+(resource#>'{code, coding}' ||
+ '{"code": "J32.9", "system": "https://icd10", "display": "Sinusitis (chronic) NOS"}'))
 
 where resource#>'{code,coding}' @> '[{"code": "40055000", "system": "http://snomed.info/sct"}]'
 and  not (resource#>'{code,coding}'  @> '[{"code": "J32.9", "system": "https://icd10"}]')
@@ -130,7 +145,7 @@ limit 10;
 
 --truncate usnpi;
 --\copy usnpi FROM '/tmp/npi.csv' with null '' CSV HEADER;
---select healthcare_provider_taxonomy_group_15 from usnpi
---where healthcare_provider_taxonomy_group_15 is null limit 10;
---select healthcare_provider_taxonomy_group_15 from usnpi limit 10;
+select healthcare_provider_taxonomy_group_15 from usnpi
+where healthcare_provider_taxonomy_group_15 is null limit 10;
+select healthcare_provider_taxonomy_group_15 from usnpi limit 10;
 ----
