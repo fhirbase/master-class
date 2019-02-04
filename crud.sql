@@ -1,16 +1,5 @@
 ---- db: -h localhost -p 7890 -U postgres postgres
 
--- Read
--- equivalent to #> operator
-select jsonb_extract_path(
-  '{"attr": "value", "nested": {"foo": "bar"}}'::jsonb, 'nested', 'foo'
-);
-
--- equivalent to #>> operator
-select jsonb_extract_path_text(
-  '{"attr": "value", "nested": {"foo": "bar"}}'::jsonb, 'nested', 'foo'
-);
-
 ----
 -- Cast from string
 select '{"gender": "male", "birthDate": "1990.11.07" }'::jsonb;
@@ -23,6 +12,8 @@ select '{"gender": "male", "birthDate": "1990.11.07" }'::jsonb;
 select jsonb_pretty(
 jsonb_build_object(
   'gender', 'female',
+  'deceased', false,
+  'growth', 180,
   'birthDate', '1982.10.12'
 ));
 
@@ -38,6 +29,8 @@ select jsonb_pretty(
 select jsonb_pretty(
   jsonb_build_object(
     'gender', 'male',
+    'deceased', false,
+    'growth', 180,
     'birthDate', '1982.10.12',
     'address', '[{"city": "SPB"}]'::jsonb,
     'name', jsonb_build_array(jsonb_build_object('family', 'Petrov'))
@@ -69,7 +62,7 @@ select jsonb_pretty(
 )
 
 from usnpi u
-order by random()
+--order by random()
 limit 1;
 ----
 
@@ -91,15 +84,17 @@ select '{"a": "b"}'::jsonb || '"c"'::jsonb;
 ----
 -- single
 select '{"a": "b", "nested": {"attr": "val"}}'::jsonb - 'a';
+----
 -- multiple
 select '{"a": "b", "nested": {"attr": "val", "b": "c"}}'::jsonb - '{nested, a}'::text[];
+----
 -- by path
 select '{"a": "b", "nested": {"attr": "val", "b": "c"}}'::jsonb #- '{nested,attr}'::text[];
 
 ----
 
--- set
 \a
+-- set
 select jsonb_pretty(
   jsonb_set('{"a": "b"}', '{c}', '"d"')
 );
@@ -114,7 +109,7 @@ select jsonb_pretty(
   jsonb_insert('{"a": "b"}', '{c}', '"d"')
 );
 
---- error
+--- return error! 
 select jsonb_pretty(
   jsonb_insert('{"a": "b", "nested": {"c": "foo"}}', '{nested,c}',  '"bar"')
 );
@@ -124,12 +119,22 @@ select jsonb_pretty(
 ----
 -- Examples
 -- add condition code
+----
+\a
+select jsonb_pretty(resource)
+from   condition
+limit  5;
+
+----
 
 update condition
 set resource = jsonb_set(resource, '{code,coding}',
 (resource#>'{code, coding}' ||
- '{"code": "J32.9", "system": "https://icd10", "display": "Sinusitis (chronic) NOS"}'))
+  '[{"code": "J32.9",
+     "system": "https://icd10",
+     "display": "Sinusitis (chronic) NOS"}]'))
 
+-- where Chronic sinusitis
 where resource#>'{code,coding}' @> '[{"code": "40055000", "system": "http://snomed.info/sct"}]'
 and  not (resource#>'{code,coding}'  @> '[{"code": "J32.9", "system": "https://icd10"}]')
 
@@ -145,7 +150,7 @@ limit 10;
 
 --truncate usnpi;
 --\copy usnpi FROM '/tmp/npi.csv' with null '' CSV HEADER;
-select healthcare_provider_taxonomy_group_15 from usnpi
-where healthcare_provider_taxonomy_group_15 is null limit 10;
-select healthcare_provider_taxonomy_group_15 from usnpi limit 10;
+--select healthcare_provider_taxonomy_group_15 from usnpi
+--where healthcare_provider_taxonomy_group_15 is null limit 10;
+--select healthcare_provider_taxonomy_group_15 from usnpi limit 10;
 ----
