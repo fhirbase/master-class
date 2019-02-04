@@ -120,9 +120,78 @@ select
 
 ----
 
+
 pt from https://www.hl7.org/fhir/patient-example.json
 
 keys is 30 %
 size is 3.6 K
+
+----
+-- TOASTs
+
+----
+\a
+
+select jsonb_pretty(table_size('observation')) as obs;
+select jsonb_pretty(table_size('encounter')) as enc;
+select jsonb_pretty(table_size('patient')) as pt;
+
+----
+
+select jsonb_pretty(table_size('patient'));
+select pg_column_size(resource) from patient
+limit 10
+
+----
+
+drop table patient_det;
+create table patient_det (like patient);
+
+----
+insert into patient_det
+select * from patient; 
+
+----
+
+select jsonb_pretty(table_size('patient_det'));
+
+----
+
+
+select pg_column_size(resource) from patient
+limit 10
+
+----
+
+update patient_det
+set resource = (resource - 'text' - 'extension') ;
+
+vacuum analyze patient;
+
+----
+
+select pg_column_size(resource) from patient_det
+limit 10
+
+----
+
+insert into patient_det (id,txid,status, resource)
+select gen_random_uuid(),0, 'created', resource from patient_det;
+
+----
+
+select jsonb_pretty(table_size('patient_det'));
+select jsonb_pretty(table_size('patient'));
+
+----
+\timing
+
+select count(*) from patient where resource->>'{name,0,given}' ilike 'a%';
+select count(*) from patient_det where resource->>'{name,0,given}' ilike 'a%';
+
+----
+
+select jsonb_pretty(table_size('patient_det'));
+select jsonb_pretty(table_size('patient'));
 
 ----

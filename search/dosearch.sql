@@ -75,7 +75,7 @@ create index enc_start_idx on encounter
 vacuum analyze encounter;
 
 ----
-\timing
+\a
 explain (costs off)
 select
   (resource#>>'{period,start}')::date,
@@ -157,10 +157,9 @@ select '{"name": "Nikolai", "address": "spb.ru"}'::jsonb
 
 ----
 \timing
-explain (costs off)
+
 select
   resource#>>'{code,coding,0,code}',
-  resource#>>'{code,coding,0,system}',
   resource#>>'{code,coding,0,display}'
 from observation
 where resource @> '{"code":{"coding":[{"code": "72166-2", "system": "http://loinc.org"}]}}'::jsonb
@@ -197,7 +196,19 @@ select
   table_size('obs_idxginp')->'total' as jsonb_path_ops;
 
 ----
-\timing
+
+\a
+explain (costs off)
+select
+  resource#>>'{code,coding,0,code}',
+  resource#>>'{code,coding,0,display}'
+from observation
+where resource ? 'code'
+limit 10
+
+----
+
+\a
 explain (costs off)
 select
   resource#>>'{code,coding,0,code}',
@@ -206,7 +217,7 @@ select
 from observation
 where resource @> '{"code":{"coding":[{"code": "72166-2", "system": "http://loinc.org"}]}}'::jsonb
 
-limit 100
+limit 10
 ----
 
 ---
@@ -291,7 +302,31 @@ $JSQ$
 );
 
 ----
+drop index obs_idxginp;
+drop index obs_idxgin;
 
+----
+\a
+explain (costs off)
+select
+  resource#>>'{code,coding,0,code}',
+  resource#>>'{code,coding,0,display}'
+from observation
+where resource @> '{"code":{"coding":[{"code": "72166-2", "system": "http://loinc.org"}]}}'::jsonb
+
+limit 10
+
+----
+\a
+explain (costs off)
+select
+  resource#>>'{code,coding,0,code}',
+  resource#>>'{code,coding,0,display}'
+from observation
+where resource ? 'code'
+limit 10
+
+----
 
 -- json knife
 
@@ -366,4 +401,10 @@ select gen_random_uuid(),0, 'created', resource from patient;
 
 REFRESH MATERIALIZED VIEW view_pts;
 
+----
+
+https://github.com/postgrespro/sqljson
+
+----
+\?
 ----

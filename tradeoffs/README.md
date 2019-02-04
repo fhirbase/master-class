@@ -2,9 +2,11 @@
 
 We pay some price for JSONB
 
-* Lake of some pg types
-* how fast we access fields in jsonb
-* how much disk space we spend on jsonb
+* Lake of statistic
+* Lake of some pg types :(
+* how fast we access fields in jsonb?
+* how much disk space we spend on jsonb?
+* large json will be toasted
 
 ## Access fields
 
@@ -25,3 +27,7 @@ We will compare disk space for:
 * composite type
 
 But it depends on your data.
+
+
+Do not go to toasts
+

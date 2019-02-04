@@ -3,12 +3,14 @@
 -- Read
 -- equivalent to #> operator
 select jsonb_extract_path(
-  '{"attr": "value", "nested": {"foo": "bar"}}'::jsonb, 'nested', 'foo'
+  '{"attr": "value", "nested": {"foo": "bar"}}'::jsonb,
+  'nested', 'foo'
 );
 
 -- equivalent to #>> operator
 select jsonb_extract_path_text(
-  '{"attr": "value", "nested": {"foo": "bar"}}'::jsonb, 'nested', 'foo'
+  '{"attr": "value", "nested": {"foo": "bar"}}'::jsonb,
+  'nested', 'foo'
 );
 
 ----
@@ -34,6 +36,7 @@ select jsonb_pretty(
 );
 
 ---- Compose
+\a
 
 select jsonb_pretty(
   jsonb_build_object(
@@ -69,7 +72,7 @@ select jsonb_pretty(
 )
 
 from usnpi u
-order by random()
+-- order by random()
 limit 1;
 ----
 
