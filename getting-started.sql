@@ -1,6 +1,7 @@
 ---- db: -h localhost -p 7890 -U postgres postgres
 
 -- Create JSONB
+--  RFC 7159 https://tools.ietf.org/html/rfc7159
 
 select '1'::jsonb;
 select 'false'::jsonb;
@@ -15,10 +16,12 @@ $JSON$
 }
 $JSON$::jsonb;
 
+----
 -- Pretty print
+\a
 select jsonb_pretty('{
-"attribute": "value",
-"nested": {"nested_attribute": "nested value"}
+  "attribute": "value",
+  "nested": {"nested_attribute": "nested value"}
 }'::jsonb);
 
 -- Other constructors (json_build_object and json_build_array) we will review later
@@ -26,6 +29,12 @@ select jsonb_pretty('{
 ----
 
 -- Access operators: -> ->> #> #>>
+-- -   get key or index
+-- #   get path
+-- >   return json value
+-- >>  return text
+
+----
 -- ->
 
 \set record '{"key": "value", "nested": {"key": "nested value"}}'
@@ -55,7 +64,7 @@ select
 pg_typeof((:'record')::jsonb->>'key');
 
 select
-'record->>''nested''' as access,
+'record->>''nested'''          as access,
 (:'record')::jsonb->>'nested'  as value,
 pg_typeof((:'record')::jsonb->>'nested');
 
@@ -82,12 +91,21 @@ select
 pg_typeof((:'record')::jsonb#>>'{nested,key}');
 ----
 
+-- Read
+-- equivalent to #> operator
+select jsonb_extract_path(
+'{"attr": "value", "nested": {"foo": "bar"}}'::jsonb, 'nested', 'foo'
+);
+
+-- equivalent to #>> operator
+select jsonb_extract_path_text(
+'{"attr": "value", "nested": {"foo": "bar"}}'::jsonb, 'nested', 'foo'
+);
+
+
 ----
 -- Create table for Github Commits
-create table commits (
-  id text primary key,
-  doc jsonb
-);
+
 ----
 -- Now load last 300 commits ifo of PostgreSQL from github
 -- $ ./github.sh
@@ -97,15 +115,22 @@ create table commits (
 -- NOTE: if github ban your IP, you can use commits_bk table
 -- select count(*) from commits_bk;
 -----
+create table commits (
+  id text primary key,
+  doc jsonb
+);
+----
 
 \a
 select jsonb_pretty(doc)
 from commits_bk
 limit 1;
 
------
-select doc#>>'{author,login}' login, count(*) commits
-from commits
+----
+select
+  doc#>>'{author,login}' login,
+  count(*) commits
+from commits_bk
 group by doc#>>'{author,login}'
 order by count(*) desc ;
 
@@ -116,7 +141,7 @@ select
   doc#>>'{commit,author,name}',
   doc#>>'{commit,author,email}',
   count(*)
-from commits
+from commits_bk
 group by
   (doc#>>'{commit,author,date}')::date,
   doc#>>'{commit,author,name}',
@@ -128,10 +153,12 @@ limit 50;
 
 -- Extra task: analyze data - keys usage
 
+select count(*) from commits_bk;
+
 with recursive r AS (
 
   select attr.key as path, attr.value as val
-  from commits p,
+  from commits_bk p,
   jsonb_each(doc) attr
 
   UNION
