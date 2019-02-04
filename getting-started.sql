@@ -126,7 +126,7 @@ order by count(*) desc
 limit 50;
 -----
 
--- analyze data - keys usage
+-- Extra task: analyze data - keys usage
 
 with recursive r AS (
 

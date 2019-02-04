@@ -94,10 +94,17 @@ See: [./tradeoffs/volume.sql](https://github.com/fhirbase/master-class/blob/mast
 
 
 
+### JSONB CRUD
 
+ * `jsonb_extract_path` and  `jsonb_extract_path_text`
+ * Constructors `jsonb_build_object` `jsonb_build_array`
+ * `jsonb_strip_nulls`
+ * `row_to_json`
+ * `||` and `-`
+ *  `jsonb_set` / `jsonb_insert`
 
+See: [./crud.md](https://github.com/fhirbase/master-class/blob/master/crud.md)
 
-### CRUD
 
 ### Search
 
