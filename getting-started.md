@@ -1,5 +1,6 @@
-
 ## Getting started
+
+### Prepare environment
 
 Run container with PostgreSQL 11
 
@@ -26,8 +27,16 @@ Load initial dataset
 curl https://storage.googleapis.com/aidbox-public/masterclass_dataset.sql.tar.gz | gunzip | psql
 ```
 
+### First steps
 
-## Example
+* JsonB type
+* Access operators
+  * ->
+  * ->>
+  * #>
+  * ->>
+
+## Work with JSONB
 
 Load commits of PostgreSQL from github
 
@@ -68,14 +77,12 @@ done
 
 ```
 
-### Tasks
+### Samples
 
  - Get user with the most commits
  - Get user with the most commits in one day
  - Analyze keys ussage
 
-
 ---
 
-[Answers](https://github.com/fhirbase/master-class/blob/master/getting-started.sql)
-
+See: [./getting-started.sql](https://github.com/fhirbase/master-class/blob/master/getting-started.sql)
