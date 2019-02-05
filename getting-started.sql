@@ -7,7 +7,7 @@ select '1'::jsonb;
 select 'false'::jsonb;
 select '"value"'::jsonb;
 select '{"attribute": "value"}'::jsonb;
-
+----
 select
 $JSON$
 {
@@ -15,6 +15,7 @@ $JSON$
 "nested": {"nested_attribute": "nested value"}
 }
 $JSON$::jsonb;
+----
 
 ----
 -- Pretty print
@@ -153,12 +154,12 @@ limit 50;
 
 -- Extra task: analyze data - keys usage
 
-select count(*) from commits_bk;
+select count(*) from commits;
 
 with recursive r AS (
 
   select attr.key as path, attr.value as val
-  from commits_bk p,
+  from commits p,
   jsonb_each(doc) attr
 
   UNION

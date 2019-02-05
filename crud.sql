@@ -27,7 +27,8 @@ jsonb_build_object(
   'gender', 'female',
   'deceased', false,
   'growth', 180,
-  'birthDate', '1982.10.12'
+  'birthDate', '1982.10.12',
+  'foo', '{"mar": "tar"}'::jsonb
 ));
 
 ----

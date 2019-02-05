@@ -1,19 +1,19 @@
-# Why JSONB?
+Why JSONB?
 
-## Questions
+ Questions
 
 * Who is using jsonb?
 * Why are u interested in jsonb?
 
-##  Unknown data
+  Unknown data
 
 * sources of information
 * dynamic system
 
-## Data diversity
+ Data diversity
 
 * generality vs specificity 
 
-## Semanitc Aggregates 
+ Semanitc Aggregates 
 
 * group objects into aggregates

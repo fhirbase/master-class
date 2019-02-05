@@ -10,7 +10,7 @@ DROP TYPE mytype1 cascade;
 DROP TYPE mytype cascade;
 
 CREATE TYPE mytype3 AS (
-just_a_attrib text
+  just_a_attrib text
 );
 
 CREATE TYPE mytype2 AS (

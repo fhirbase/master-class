@@ -6,7 +6,7 @@
 
 drop table test_vol_jsonb;
 create table test_vol_jsonb (
-id serial primary key,
+  id serial primary key,
   resource jsonb
 );
 

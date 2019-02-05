@@ -53,7 +53,7 @@ resource#>>'{subject,id}' = '32fe33e0-296f-486a-856d-3053fd0db8ab'
 
 \a
 \timing
-explain analyze
+-- explain analyze
 select
   (resource#>>'{period,start}')::date,
   resource#>>'{type,0,text}'
@@ -275,9 +275,9 @@ select
 from observation
 where
 resource @@  $JSQ$
-code.coding.#.code = "2339-0"
-and subject.id /*-- index */ = "32fe33e0-296f-486a-856d-3053fd0db8ab"
-and value.Quantity.value > 80.0
+  code.coding.#.code = "2339-0"
+  and subject.id /*-- index */ = "32fe33e0-296f-486a-856d-3053fd0db8ab"
+  and value.Quantity.value > 80.0
 $JSQ$
 limit 10;
 

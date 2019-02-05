@@ -56,7 +56,7 @@ jsonb_pretty(
   -- agg in object
   jsonb_object_agg(
     t.column_name,
-    jsonb_strip_nulls(to_jsonb(t))
+    jsonb_strip_nulls(to_jsonb(t) - 'column_name')
   )
 )
 from information_schema.columns t
@@ -97,7 +97,7 @@ select jsonb_pretty(jsonb_object_agg(x.table_name, doc)) from (
     t.doc || jsonb_build_object(
     'columns', c.doc,
     'stats', jsonb_strip_nulls(
-      s.doc || table_size(c.table_name)
+      ns.doc || table_size(c.table_name)
      )
     ) as doc
   from  tables t, columns c, stats s
